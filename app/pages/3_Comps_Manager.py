@@ -3,19 +3,19 @@
 import sys
 from pathlib import Path
 _project_root = str(Path(__file__).parent.parent.parent)
+_src_dir = str(Path(__file__).parent.parent.parent / "src")
 _app_root = str(Path(__file__).parent.parent)
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
-if _app_root not in sys.path:
-    sys.path.insert(0, _app_root)
+for _p in [_project_root, _src_dir, _app_root]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import streamlit as st
-from src.database import (
+from database import (
     get_db, get_all_companies,
     get_comps_for_company, get_latest_comp_data, insert_comp, delete_comp,
 )
-from src.comps import refresh_comp_data, compute_comp_summary, add_manual_comp_data
-from src.utils import format_multiple
+from comps import refresh_comp_data, compute_comp_summary, add_manual_comp_data
+from utils import format_multiple
 from components.tables import comp_data_table
 from components.charts import comp_multiples_bar_chart
 

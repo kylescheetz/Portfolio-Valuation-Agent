@@ -3,22 +3,22 @@
 import sys
 from pathlib import Path
 _project_root = str(Path(__file__).parent.parent.parent)
+_src_dir = str(Path(__file__).parent.parent.parent / "src")
 _app_root = str(Path(__file__).parent.parent)
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
-if _app_root not in sys.path:
-    sys.path.insert(0, _app_root)
+for _p in [_project_root, _src_dir, _app_root]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import streamlit as st
-from src.database import (
+from database import (
     get_db, get_active_alerts,
     acknowledge_alert, set_config, get_config_float,
 )
-from src.config import (
+from config import (
     ALERT_COMP_MULTIPLE_CHANGE_PCT,
     ALERT_PORTFOLIO_VALUE_DELTA_PCT, ALERT_UNDERPERFORMANCE_PCT,
 )
-from src.alerts import run_all_checks, get_alert_summary
+from alerts import run_all_checks, get_alert_summary
 from components.tables import alerts_table
 
 conn = get_db()

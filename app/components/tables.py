@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 from typing import List, Dict, Any
 
-from src.utils import format_large_number, format_multiple, format_percentage
+from utils import format_large_number, format_multiple, format_percentage
 
 
 def portfolio_summary_table(companies: List[Dict[str, Any]]) -> None:

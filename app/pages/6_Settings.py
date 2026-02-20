@@ -3,19 +3,19 @@
 import sys
 from pathlib import Path
 _project_root = str(Path(__file__).parent.parent.parent)
+_src_dir = str(Path(__file__).parent.parent.parent / "src")
 _app_root = str(Path(__file__).parent.parent)
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
-if _app_root not in sys.path:
-    sys.path.insert(0, _app_root)
+for _p in [_project_root, _src_dir, _app_root]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import streamlit as st
-from src.database import (
+from database import (
     get_db, set_config, get_config_float, get_config,
 )
-from src.config import DEFAULT_WEIGHTS, GROWTH_ADJUSTMENT_FACTOR
-from src.data_ingestion import import_companies_from_csv, import_comps_from_csv
-from src.utils import format_large_number
+from config import DEFAULT_WEIGHTS, GROWTH_ADJUSTMENT_FACTOR
+from data_ingestion import import_companies_from_csv, import_comps_from_csv
+from utils import format_large_number
 import tempfile
 import os
 
@@ -139,7 +139,7 @@ st.subheader("Data Export")
 col1, col2 = st.columns(2)
 with col1:
     if st.button("📥 Export Companies CSV"):
-        from src.data_ingestion import export_companies_to_csv
+        from data_ingestion import export_companies_to_csv
         tmp = os.path.join(tempfile.gettempdir(), "companies_export.csv")
         count = export_companies_to_csv(conn, tmp)
         if count > 0:
@@ -150,7 +150,7 @@ with col1:
 
 with col2:
     if st.button("📥 Export Valuations CSV"):
-        from src.data_ingestion import export_valuations_to_csv
+        from data_ingestion import export_valuations_to_csv
         tmp = os.path.join(tempfile.gettempdir(), "valuations_export.csv")
         count = export_valuations_to_csv(conn, tmp)
         if count > 0:
@@ -163,8 +163,9 @@ st.divider()
 
 # --- Database Info ---
 st.subheader("Database Info")
-st.caption(f"Database path: `{DB_PATH}`")
-from src.database import get_all_companies
+from config import DB_PATH as _db_path
+st.caption(f"Database path: `{_db_path}`")
+from database import get_all_companies
 conn2 = get_db()
 companies = get_all_companies(conn2)
 conn2.close()

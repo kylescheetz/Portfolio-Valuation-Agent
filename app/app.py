@@ -3,14 +3,17 @@
 import sys
 from pathlib import Path
 
-# Add project root to path
+# Add project root and src/ to path for Streamlit Cloud compatibility
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
+src_dir = project_root / "src"
+for p in [str(project_root), str(src_dir)]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
 
 import streamlit as st
-from src.database import get_db
-from src.portfolio import get_portfolio_summary
-from src.utils import format_large_number, format_percentage
+from database import get_db
+from portfolio import get_portfolio_summary
+from utils import format_large_number, format_percentage
 
 st.set_page_config(
     page_title="EV Mark-to-Market Engine",

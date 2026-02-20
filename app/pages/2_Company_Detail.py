@@ -3,19 +3,19 @@
 import sys
 from pathlib import Path
 _project_root = str(Path(__file__).parent.parent.parent)
+_src_dir = str(Path(__file__).parent.parent.parent / "src")
 _app_root = str(Path(__file__).parent.parent)
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
-if _app_root not in sys.path:
-    sys.path.insert(0, _app_root)
+for _p in [_project_root, _src_dir, _app_root]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import streamlit as st
-from src.database import get_db, get_all_companies, update_company, get_latest_comp_data
-from src.config import DEFAULT_WEIGHTS
-from src.valuation import run_valuation, sensitivity_analysis
-from src.comps import compute_comp_summary
-from src.database import get_valuation_history
-from src.utils import format_large_number, format_multiple, format_percentage
+from database import get_db, get_all_companies, update_company, get_latest_comp_data
+from config import DEFAULT_WEIGHTS
+from valuation import run_valuation, sensitivity_analysis
+from comps import compute_comp_summary
+from database import get_valuation_history
+from utils import format_large_number, format_multiple, format_percentage
 from components.charts import (
     company_valuation_chart, sensitivity_tornado_chart,
     equity_bridge_waterfall, comp_multiples_bar_chart,
@@ -95,7 +95,7 @@ if st.button("🔄 Run Valuation", type="primary"):
     st.rerun()
 
 # Show latest valuation
-from src.database import get_latest_valuation
+from database import get_latest_valuation
 latest = get_latest_valuation(conn, company_id)
 
 if latest:

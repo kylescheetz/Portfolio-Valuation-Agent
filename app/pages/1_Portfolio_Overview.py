@@ -3,18 +3,18 @@
 import sys
 from pathlib import Path
 _project_root = str(Path(__file__).parent.parent.parent)
+_src_dir = str(Path(__file__).parent.parent.parent / "src")
 _app_root = str(Path(__file__).parent.parent)
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
-if _app_root not in sys.path:
-    sys.path.insert(0, _app_root)
+for _p in [_project_root, _src_dir, _app_root]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import streamlit as st
-from src.database import get_db
-from src.portfolio import get_portfolio_summary, get_portfolio_time_series, get_concentration_analysis
-from src.valuation import run_all_valuations
-from src.portfolio import calculate_holdco_nav
-from src.utils import format_large_number, format_percentage
+from database import get_db
+from portfolio import get_portfolio_summary, get_portfolio_time_series, get_concentration_analysis
+from valuation import run_all_valuations
+from portfolio import calculate_holdco_nav
+from utils import format_large_number, format_percentage
 from components.charts import nav_time_series_chart, concentration_pie_chart, sector_bar_chart
 from components.tables import portfolio_summary_table
 
@@ -33,7 +33,7 @@ with col_a:
         st.rerun()
 with col_b:
     if st.button("📥 Export CSV"):
-        from src.data_ingestion import export_companies_to_csv
+        from data_ingestion import export_companies_to_csv
         import tempfile, os
         tmp = os.path.join(tempfile.gettempdir(), "ev_portfolio_export.csv")
         export_companies_to_csv(conn, tmp)

@@ -3,19 +3,19 @@
 import sys
 from pathlib import Path
 _project_root = str(Path(__file__).parent.parent.parent)
+_src_dir = str(Path(__file__).parent.parent.parent / "src")
 _app_root = str(Path(__file__).parent.parent)
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
-if _app_root not in sys.path:
-    sys.path.insert(0, _app_root)
+for _p in [_project_root, _src_dir, _app_root]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import streamlit as st
-from src.database import (
+from database import (
     get_db, get_all_companies,
     get_valuation_history,
 )
-from src.portfolio import get_portfolio_time_series
-from src.utils import format_large_number
+from portfolio import get_portfolio_time_series
+from utils import format_large_number
 from components.charts import nav_time_series_chart, company_valuation_chart
 from components.tables import valuation_snapshot_table
 
@@ -74,7 +74,7 @@ else:
 # Export
 st.divider()
 if st.button("📥 Export Valuation History"):
-    from src.data_ingestion import export_valuations_to_csv
+    from data_ingestion import export_valuations_to_csv
     import tempfile, os
     tmp = os.path.join(tempfile.gettempdir(), "valuation_history_export.csv")
     count = export_valuations_to_csv(conn, tmp)
