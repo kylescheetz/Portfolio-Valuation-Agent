@@ -1,0 +1,6 @@
+name,sector,subsector,revenue_ttm,revenue_run_rate,ebitda,gross_margin,growth_rate,net_debt,ownership_pct,preferred_amount,dilution_pct
+CloudStack Inc,SaaS,Infrastructure,45000000,52000000,-5000000,0.72,0.35,-10000000,0.25,15000000,0.05
+DataFlow Analytics,SaaS,Analytics,80000000,88000000,12000000,0.65,0.22,5000000,0.18,20000000,0.03
+GreenCharge Energy,CleanTech,EV Charging,30000000,40000000,-8000000,0.45,0.55,2000000,0.30,10000000,0.08
+MedSecure Health,HealthTech,Compliance,60000000,65000000,15000000,0.70,0.18,-5000000,0.22,12000000,0.04
+FinLedger Corp,FinTech,Payments,120000000,130000000,25000000,0.60,0.28,15000000,0.15,25000000,0.06

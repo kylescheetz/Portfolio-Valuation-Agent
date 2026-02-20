@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+data/ev_mtm.db
+.env
+.streamlit/secrets.toml
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+htmlcov/
+.coverage

@@ -1,0 +1,19 @@
+portfolio_company_name,ticker,company_name
+CloudStack Inc,DDOG,Datadog
+CloudStack Inc,NET,Cloudflare
+CloudStack Inc,MDB,MongoDB
+CloudStack Inc,SNOW,Snowflake
+DataFlow Analytics,PLTR,Palantir
+DataFlow Analytics,AYX,Alteryx
+DataFlow Analytics,DOMO,Domo
+DataFlow Analytics,ESTC,Elastic
+GreenCharge Energy,CHPT,ChargePoint
+GreenCharge Energy,BLNK,Blink Charging
+GreenCharge Energy,EVGO,EVgo
+MedSecure Health,VEEV,Veeva Systems
+MedSecure Health,HIMS,Hims & Hers
+MedSecure Health,DOCS,Doximity
+FinLedger Corp,SQ,Block
+FinLedger Corp,AFRM,Affirm
+FinLedger Corp,BILL,Bill.com
+FinLedger Corp,PYPL,PayPal
