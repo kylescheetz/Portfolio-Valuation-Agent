@@ -8,12 +8,12 @@ from datetime import date
 
 import yfinance as yf
 
-from src.config import YFINANCE_SLEEP_SECONDS
-from src.database import (
+from .config import YFINANCE_SLEEP_SECONDS
+from .database import (
     get_comps_for_company, get_all_companies, get_latest_comp_data,
     insert_comp_data,
 )
-from src.utils import safe_divide, today_str
+from .utils import safe_divide, today_str
 
 
 def fetch_yfinance_data(ticker: str) -> Optional[Dict[str, Any]]:

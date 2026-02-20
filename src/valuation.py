@@ -3,12 +3,12 @@
 import sqlite3
 from typing import Dict, Any, List, Optional
 
-from src.config import DEFAULT_WEIGHTS, GROWTH_ADJUSTMENT_FACTOR, SENSITIVITY_STD_DEVS
-from src.database import (
+from .config import DEFAULT_WEIGHTS, GROWTH_ADJUSTMENT_FACTOR, SENSITIVITY_STD_DEVS
+from .database import (
     get_company, get_all_companies, insert_valuation_snapshot, update_company,
 )
-from src.comps import compute_comp_summary
-from src.utils import today_str, pct_change
+from .comps import compute_comp_summary
+from .utils import today_str, pct_change
 
 
 def trading_multiple_ev_revenue(revenue_ttm: float, median_ev_revenue: float) -> float:

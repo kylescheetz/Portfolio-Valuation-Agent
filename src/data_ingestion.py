@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from src.database import (
+from .database import (
     insert_company, update_company, get_all_companies,
     insert_comp, get_comps_for_company,
 )
@@ -172,7 +172,7 @@ def export_companies_to_csv(conn: sqlite3.Connection, file_path: str) -> int:
 def export_valuations_to_csv(conn: sqlite3.Connection, file_path: str,
                              company_id: int = None) -> int:
     """Export valuation history to CSV."""
-    from src.database import get_valuation_history
+    from .database import get_valuation_history
     if company_id:
         snapshots = get_valuation_history(conn, company_id, limit=1000)
     else:

@@ -3,17 +3,17 @@
 import sqlite3
 from typing import Dict, Any, List, Optional
 
-from src.config import (
+from .config import (
     ALERT_COMP_MULTIPLE_CHANGE_PCT,
     ALERT_PORTFOLIO_VALUE_DELTA_PCT,
     ALERT_UNDERPERFORMANCE_PCT,
 )
-from src.database import (
+from .database import (
     get_all_companies, get_company, get_latest_valuation,
     get_latest_comp_data, get_active_alerts, insert_alert, get_config_float,
 )
-from src.comps import compute_comp_summary
-from src.utils import pct_change
+from .comps import compute_comp_summary
+from .utils import pct_change
 
 
 def check_comp_multiple_change(conn: sqlite3.Connection,

@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from contextlib import contextmanager
 
-from src.config import DB_PATH
+from .config import DB_PATH
 
 # Thread-local storage for connections
 _local = threading.local()
