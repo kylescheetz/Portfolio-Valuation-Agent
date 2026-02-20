@@ -11,22 +11,15 @@ if _app_root not in sys.path:
 
 import streamlit as st
 from src.database import (
-    get_connection, initialize_database, get_all_companies,
+    get_db, get_all_companies,
     get_comps_for_company, get_latest_comp_data, insert_comp, delete_comp,
 )
-from src.config import DB_PATH
 from src.comps import refresh_comp_data, compute_comp_summary, add_manual_comp_data
 from src.utils import format_multiple
 from components.tables import comp_data_table
 from components.charts import comp_multiples_bar_chart
 
-if "db_conn" not in st.session_state:
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    conn = get_connection(DB_PATH)
-    initialize_database(conn)
-    st.session_state.db_conn = conn
-
-conn = st.session_state.db_conn
+conn = get_db()
 
 st.title("Comps Manager")
 

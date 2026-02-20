@@ -11,23 +11,17 @@ if _app_root not in sys.path:
 
 import streamlit as st
 from src.database import (
-    get_connection, initialize_database, get_active_alerts,
+    get_db, get_active_alerts,
     acknowledge_alert, set_config, get_config_float,
 )
 from src.config import (
-    DB_PATH, ALERT_COMP_MULTIPLE_CHANGE_PCT,
+    ALERT_COMP_MULTIPLE_CHANGE_PCT,
     ALERT_PORTFOLIO_VALUE_DELTA_PCT, ALERT_UNDERPERFORMANCE_PCT,
 )
 from src.alerts import run_all_checks, get_alert_summary
 from components.tables import alerts_table
 
-if "db_conn" not in st.session_state:
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    conn = get_connection(DB_PATH)
-    initialize_database(conn)
-    st.session_state.db_conn = conn
-
-conn = st.session_state.db_conn
+conn = get_db()
 
 st.title("Alerts")
 

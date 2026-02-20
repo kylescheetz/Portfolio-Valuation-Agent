@@ -10,8 +10,7 @@ if _app_root not in sys.path:
     sys.path.insert(0, _app_root)
 
 import streamlit as st
-from src.database import get_connection, initialize_database
-from src.config import DB_PATH
+from src.database import get_db
 from src.portfolio import get_portfolio_summary, get_portfolio_time_series, get_concentration_analysis
 from src.valuation import run_all_valuations
 from src.portfolio import calculate_holdco_nav
@@ -19,13 +18,7 @@ from src.utils import format_large_number, format_percentage
 from components.charts import nav_time_series_chart, concentration_pie_chart, sector_bar_chart
 from components.tables import portfolio_summary_table
 
-if "db_conn" not in st.session_state:
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    conn = get_connection(DB_PATH)
-    initialize_database(conn)
-    st.session_state.db_conn = conn
-
-conn = st.session_state.db_conn
+conn = get_db()
 
 st.title("Portfolio Overview")
 

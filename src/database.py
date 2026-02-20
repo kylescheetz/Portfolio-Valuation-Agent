@@ -2,18 +2,49 @@
 
 import sqlite3
 import json
+import threading
 from typing import Optional, List, Dict, Any
 from datetime import datetime
+from pathlib import Path
+from contextlib import contextmanager
 
 from src.config import DB_PATH
+
+# Thread-local storage for connections
+_local = threading.local()
 
 
 def get_connection(db_path: str = None) -> sqlite3.Connection:
     """Return a SQLite connection with row_factory set to sqlite3.Row."""
     path = db_path or DB_PATH
-    conn = sqlite3.connect(path)
+    conn = sqlite3.connect(path, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
+    return conn
+
+
+_initialized_paths: set = set()
+
+
+def get_db(db_path: str = None) -> sqlite3.Connection:
+    """Return a fresh, thread-safe SQLite connection.
+
+    This is the preferred way to get a DB connection in Streamlit pages.
+    Creates a new connection each call to avoid cross-thread and stale
+    connection issues on Streamlit Cloud.
+    Auto-initializes the schema on first use per path.
+    """
+    path = db_path or DB_PATH
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(path, check_same_thread=False)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys = ON")
+
+    # Auto-initialize schema once per path per process
+    if path not in _initialized_paths:
+        initialize_database(conn)
+        _initialized_paths.add(path)
+
     return conn
 
 

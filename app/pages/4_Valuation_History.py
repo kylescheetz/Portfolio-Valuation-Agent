@@ -11,22 +11,15 @@ if _app_root not in sys.path:
 
 import streamlit as st
 from src.database import (
-    get_connection, initialize_database, get_all_companies,
+    get_db, get_all_companies,
     get_valuation_history,
 )
-from src.config import DB_PATH
 from src.portfolio import get_portfolio_time_series
 from src.utils import format_large_number
 from components.charts import nav_time_series_chart, company_valuation_chart
 from components.tables import valuation_snapshot_table
 
-if "db_conn" not in st.session_state:
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    conn = get_connection(DB_PATH)
-    initialize_database(conn)
-    st.session_state.db_conn = conn
-
-conn = st.session_state.db_conn
+conn = get_db()
 
 st.title("Valuation History")
 

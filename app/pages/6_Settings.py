@@ -11,21 +11,15 @@ if _app_root not in sys.path:
 
 import streamlit as st
 from src.database import (
-    get_connection, initialize_database, set_config, get_config_float, get_config,
+    get_db, set_config, get_config_float, get_config,
 )
-from src.config import DB_PATH, DEFAULT_WEIGHTS, GROWTH_ADJUSTMENT_FACTOR
+from src.config import DEFAULT_WEIGHTS, GROWTH_ADJUSTMENT_FACTOR
 from src.data_ingestion import import_companies_from_csv, import_comps_from_csv
 from src.utils import format_large_number
 import tempfile
 import os
 
-if "db_conn" not in st.session_state:
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    conn = get_connection(DB_PATH)
-    initialize_database(conn)
-    st.session_state.db_conn = conn
-
-conn = st.session_state.db_conn
+conn = get_db()
 
 st.title("Settings")
 
@@ -171,5 +165,7 @@ st.divider()
 st.subheader("Database Info")
 st.caption(f"Database path: `{DB_PATH}`")
 from src.database import get_all_companies
-companies = get_all_companies(conn)
+conn2 = get_db()
+companies = get_all_companies(conn2)
+conn2.close()
 st.caption(f"Portfolio companies: {len(companies)}")

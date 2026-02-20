@@ -8,8 +8,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 import streamlit as st
-from src.database import get_connection, initialize_database, get_config_float
-from src.config import DB_PATH
+from src.database import get_db
 from src.portfolio import get_portfolio_summary
 from src.utils import format_large_number, format_percentage
 
@@ -19,15 +18,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-
-# Initialize DB connection
-if "db_conn" not in st.session_state:
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    conn = get_connection(DB_PATH)
-    initialize_database(conn)
-    st.session_state.db_conn = conn
-
-conn = st.session_state.db_conn
 
 # Custom CSS for EV branding
 st.markdown("""
@@ -76,7 +66,9 @@ st.sidebar.divider()
 
 # Show NAV headline in sidebar
 try:
+    conn = get_db()
     summary = get_portfolio_summary(conn)
+    conn.close()
     if summary["nav"] is not None:
         st.sidebar.metric("HoldCo NAV", format_large_number(summary["nav"]),
                           delta=format_percentage(summary["change_vs_prior_pct"])
@@ -100,7 +92,9 @@ st.info("Use the sidebar to navigate: Portfolio Overview, Company Detail, "
 
 # Quick stats
 try:
+    conn = get_db()
     summary = get_portfolio_summary(conn)
+    conn.close()
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Portfolio Companies", summary["company_count"])

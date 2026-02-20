@@ -10,8 +10,8 @@ if _app_root not in sys.path:
     sys.path.insert(0, _app_root)
 
 import streamlit as st
-from src.database import get_connection, initialize_database, get_all_companies, update_company, get_latest_comp_data
-from src.config import DB_PATH, DEFAULT_WEIGHTS
+from src.database import get_db, get_all_companies, update_company, get_latest_comp_data
+from src.config import DEFAULT_WEIGHTS
 from src.valuation import run_valuation, sensitivity_analysis
 from src.comps import compute_comp_summary
 from src.database import get_valuation_history
@@ -22,13 +22,7 @@ from components.charts import (
 )
 from components.tables import comp_data_table, valuation_snapshot_table
 
-if "db_conn" not in st.session_state:
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    conn = get_connection(DB_PATH)
-    initialize_database(conn)
-    st.session_state.db_conn = conn
-
-conn = st.session_state.db_conn
+conn = get_db()
 
 st.title("Company Detail")
 
